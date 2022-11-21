@@ -1,0 +1,52 @@
+
+// Perform following MongoDB queries using CRUD Operation
+
+show dbs
+
+// 1. Create Database DYPCOE 
+use DYPCOE
+
+// 2. Create following Collections
+// Teachers (Tname, dno, dname, experience, salary, date_of_joining)
+db.createCollection("teachers")
+
+db.teachers.insertMany([
+{Tname:"jay", dno:"1", dname:"COMP", experience:"5", salary:"50000", date_of_joining:"15/12/2021"}, 
+{Tname:"adi", dno:"1", dname:"COMP", experience:"7", salary:"40000", date_of_joining:"01/08/2020"}, 
+{Tname:"yash", dno:"2", dname:"IT", experience:"2", salary:"20000", date_of_joining:"12/11/2021"},
+{Tname:"praveen", dno:"3", dname:"E&TC", experience:"6", salary:"60000", date_of_joining:"27/03/2022"}]);
+
+// Students (Sname, roll_no, class)
+db.createCollection("students")
+
+db.students.insertMany([{Sname:"xyz", roll_no:"2", class:"TE"}, 
+{Sname:"abc", roll_no:"1", class:"SE"}, 
+{Sname:"pqr", roll_no:"5", class:"BE"}]);
+
+// 3. Find the information about all teachers 
+db.teachers.find().pretty()
+
+// 4. Find the information about all teachers of computer department 
+db.teachers.find({dname:"COMP"}).pretty()
+
+// 5. Find the information about all teachers of computer, IT and E&TC department 
+db.teachers.find({dname: {$in: ["COMP", "IT", "E&TC"]}}).pretty()
+
+// 6. Find the information about all teachers of computer, IT and E&TC department having salary
+// greater than or equal to 10000/- 
+db.teachers.find({salary:{$gt: 10000}}).pretty()
+
+// 7. Find the student information having roll_no = 2 or Sname=xyz 
+db.students.find({$or: [{Sname:"xyz"}, {roll_no:13}]}).pretty()
+
+// 8. Update the experience of teacher-praveen to 10years, if the entry is not available in database
+// consider the entry as new entry. 
+db.teachers.update({Tname:"praveen"}, {$set:{experience:"10"}})
+
+// 9. Update the department of all the teachers working in IT department to COMP 
+db.teachers.update({dname: "IT"},{$set:{dname: "COMP"}})
+
+// 10. find the teachers name and their experience from teachers’ collection 
+db.teachers.find({},{_id:0,Tname:1,experience:1});
+
+
